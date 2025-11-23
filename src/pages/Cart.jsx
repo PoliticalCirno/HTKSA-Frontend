@@ -1,9 +1,13 @@
 import { useCart } from '../context/CartContext.jsx'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Cart(){
   const { items, setQty, remove, clear, total } = useCart()
   const navigate = useNavigate()
+
+
+
   return (
     <div className="container section">
       <h1 style={{fontSize:32, fontWeight:800}}>Your Cart</h1>

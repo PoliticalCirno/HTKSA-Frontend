@@ -15,10 +15,31 @@ export default function Login(){
     e.preventDefault(); setError('')
     try { await axios.post(API,{email, password}); await login(email, password); nav('/');}
     
-    catch(err){
-      console.log();
+    catch (err) {
+
+    // Show the full error in console
+    console.log("LOGIN ERROR:", err);
+
+    if (err.response) {
+      const status = err.response.status;
+
+      if (status === 401) {
+        setError("Incorrect email or password.");
+      } 
+      
+      else if (status === 404) {
+        setError("User does not exist.");
+      } 
+      
+      else {
+        setError(`Login failed (status ${status}).`);
+      }
+
+    } else {
+      setError("Network error: Cannot reach server.");
     }
   }
+};
 
   return (
     <div className="container" style={{padding:'64px 0', maxWidth:520}}>

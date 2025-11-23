@@ -1,7 +1,9 @@
-import products from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
 
 export default function Products(){
+  const [name, setName] = useState('')
+  const [desc, setDesc] = useState('')
+
   return (
     <div className="section">
       <div className="container">
