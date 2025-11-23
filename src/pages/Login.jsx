@@ -1,6 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Await, Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
+import axios from 'axios'
 
 export default function Login(){
   const { login } = useAuth()
@@ -8,10 +9,15 @@ export default function Login(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const API = "https://htksa-backend.onrender.com/api/auth/login"
 
   const submit = async (e) => {
     e.preventDefault(); setError('')
-    try { await login(email, password); nav('/') } catch (err) { setError(err.message) }
+    try { await axios.post(API,{email, password}); await login(email, password); nav('/');}
+    
+    catch(err){
+      console.log();
+    }
   }
 
   return (
