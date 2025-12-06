@@ -9,7 +9,7 @@ export default function Login(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const API = "https://htksa-backend.onrender.com/api/auth/login"
+  const API = "https://htksa-backend.fly.dev/api/auth/login"
 
   const submit = async (e) => {
     e.preventDefault(); setError('')
