@@ -1,5 +1,6 @@
 const USERS_KEY = 'htksa_users_v1'
 const SESSION_KEY = 'htksa_session_v1'
+const REVIEWS_KEY = 'htksa_reviews_v1'
 
 function saveUsers(users){ localStorage.setItem(USERS_KEY, JSON.stringify(users)) }
 function loadUsers(){ return JSON.parse(localStorage.getItem(USERS_KEY) || '[]') }
@@ -43,4 +44,55 @@ export async function processPayment({ amount, card }){
       resolve({ id: orderId, amount })
     }, 1000)
   })
+}
+
+
+function loadReviews() {
+  return JSON.parse(localStorage.getItem(REVIEWS_KEY) || '[]')
+}
+
+function saveAllReviews(reviews) {
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews))
+}
+
+// Get all reviews for one product
+export async function listReviews(productId) {
+  const all = loadReviews()
+  return all
+    .filter(r => r.productId === productId)
+    .sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt))
+}
+
+// Create or update a review for the current user
+export async function saveReview({ productId, rating, comment }) {
+  const user = getCurrentUser()
+  if (!user) throw new Error('You must be logged in to leave a review')
+
+  const all = loadReviews()
+  const now = new Date().toISOString()
+
+  const idx = all.findIndex(
+    r => r.productId === productId && r.userEmail === user.email
+  )
+
+  let review
+  if (idx >= 0) {
+    review = { ...all[idx], rating, comment, updatedAt: now }
+    all[idx] = review
+  } else {
+    review = {
+      id: 'rev_' + Date.now(),
+      productId,
+      userEmail: user.email,
+      userName: user.name || user.email.split('@')[0],
+      rating,
+      comment,
+      createdAt: now,
+      updatedAt: now,
+    }
+    all.push(review)
+  }
+
+  saveAllReviews(all)
+  return review
 }

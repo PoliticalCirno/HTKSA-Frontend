@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard.jsx'
 import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
+import Reviews from '../components/Reviews.jsx'
 
 export default function Product() {
   const { id } = useParams()
@@ -96,6 +97,7 @@ export default function Product() {
           </div>
         </div>
       </div>
+      <Reviews productId={product.id} />
       {zoomOpen && (
         <div className="lightbox" role="dialog" aria-label="Image preview" onClick={(e) => { if (e.target.classList.contains('lightbox')) setZoomOpen(false) }}>
           <div className="lightbox-inner">
