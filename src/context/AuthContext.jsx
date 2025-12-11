@@ -6,7 +6,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const API = "https://htksa-backend.fly.dev/api/auth/";
+  const API = "https://htksa-backend.onrender.com/api/auth/";
+//  const API = "https://htksa-backend.fly.dev/api/auth/"; <- Policy ended. Sorry professor, I can't keep paying for this so it had to be ended.
+  //
 
   // Load current user from token on first render
   useEffect(() => {
